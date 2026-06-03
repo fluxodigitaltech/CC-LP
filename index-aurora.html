@@ -271,20 +271,51 @@ body.loading{overflow:hidden}
 .reveal.in{opacity:1;transform:none}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
 
-@media(max-width:920px){
+@media(max-width:980px){
   .gcards{grid-template-columns:1fr 1fr}
   .svc-grid{grid-template-columns:1fr 1fr}
   .proc-grid{grid-template-columns:1fr 1fr;gap:34px 24px}
+  .proj-grid{grid-template-columns:1fr 1fr}
+  .testi-grid{grid-template-columns:1fr 1fr}
   .cta-grid{grid-template-columns:1fr;gap:40px}
   .statbar .wrap{grid-template-columns:1fr 1fr}
   .statbar .sb:nth-child(3){border-left:none}
+  .logo img{height:118px;margin:-40px 0}
+  .footer .logo img{height:90px;margin:-28px 0}
 }
 @media(max-width:620px){
+  .header{padding:14px 0}
+  .nav{gap:12px}
   .nav-links{display:none}.burger{display:block}
-  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--bg-2);padding:22px;gap:18px;border-bottom:1px solid var(--line)}
-  .gcards,.svc-grid,.proc-grid,.statbar .wrap,.fg{grid-template-columns:1fr}
+  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--bg-2);padding:18px 22px;gap:4px;border-bottom:1px solid var(--line)}
+  .nav-links.open a{padding:12px 4px;font-size:1rem}
+  .logo img{height:96px;margin:-30px 0}
+  .header .btn-white{padding:9px 16px;font-size:.88rem}
+  .gcards,.svc-grid,.proc-grid,.proj-grid,.testi-grid,.statbar .wrap,.fg{grid-template-columns:1fr}
   .statbar .sb+.sb{border-left:none;border-top:1px solid var(--line)}
-  .hero{padding:130px 0 72px}
+  .statbar .sb{padding:20px 22px}
+  .hero{padding:118px 0 64px}
+  .hero h1{font-size:clamp(2.6rem,12vw,4rem)}
+  .hero p.lead{font-size:1.04rem;margin:20px auto 28px}
+  .hero .btns{flex-direction:column;align-items:stretch}
+  .hero .btns .btn{width:100%}
+  .hero-cc{width:118vw;opacity:.2}
+  .gcard{min-height:auto;padding:24px 22px}
+  .svc{padding:24px}
+  .pcard{min-height:270px;padding:22px}
+  .band-inner{max-width:none}
+  .form{padding:22px}
+  .cta h2,.band h2{font-size:clamp(1.9rem,8vw,2.6rem)}
+  .footer-top{flex-direction:column}
+  .footer-contact{text-align:left}
+  .footer-bottom{flex-direction:column;gap:12px}
+  .section{padding:62px 0}
+}
+@media(max-width:400px){
+  .logo img{height:84px;margin:-26px 0}
+  .header .btn-white{padding:8px 12px;font-size:.82rem}
+  .hero h1{font-size:clamp(2.1rem,13vw,2.8rem)}
+  .nav{gap:8px}
 }
 </style>
 </head>
@@ -588,16 +619,18 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
   },{passive:true});
   function render(){
     const sy=window.scrollY;
+    const mob=window.innerWidth<=620;      // gentler parallax on phones
+    const amp=mob?130:260;
     // scroll parallax for background layers (relative to viewport center)
     for(const el of layers){
       const r=el.getBoundingClientRect();
       const off=((r.top+r.height/2)-vh()/2)/vh();
       const sp=parseFloat(el.dataset.px)||0;
-      el.style.transform=`translate3d(0,${(-off*sp*260).toFixed(1)}px,0)`;
+      el.style.transform=`translate3d(0,${(-off*sp*amp).toFixed(1)}px,0)`;
     }
     // hero text: drifts down (lags the scroll) and fades out
     if(heroInner){
-      heroInner.style.transform=`translate3d(0,${(sy*0.4).toFixed(1)}px,0)`;
+      heroInner.style.transform=`translate3d(0,${(sy*(mob?0.25:0.4)).toFixed(1)}px,0)`;
       heroInner.style.opacity=Math.max(0,1-sy/520).toFixed(2);
     }
     // CC: smooth mouse follow + scroll drift
