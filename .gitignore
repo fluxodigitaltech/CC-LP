@@ -1,0 +1,8 @@
+# Duplicate source logo (logo.png is the canonical one used by the page)
+logo png.png
+
+# OS / editor cruft
+Thumbs.db
+desktop.ini
+.DS_Store
+*.log
